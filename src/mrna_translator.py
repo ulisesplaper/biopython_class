@@ -2,7 +2,7 @@
  NAME
       mrna_translator.py
 VERSION
-        0.1.0
+        1.0.0
 AUTHOR
         Victor Ulises Plascencia Perez
 DESCRIPTION
