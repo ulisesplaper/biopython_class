@@ -50,23 +50,3 @@ def get_sequence(path):
         sequence += line
     sequence = sequence.replace("\n", "")
     return sequence
-def get_nucleotide_sequence(path):
-    '''
-    Returns sequence extracted from a fasta file 
-        Parameters
-            path (str): path of the fasta file
-        Returns:
-            sequence(str): nucleotide or aminoacid sequence extracted from
-            a fasta file
-    '''
-    # Abrir el archivo, guardar cada linea en una lista y cerrar el archivo
-    file = open(path)
-    fasta = file.readlines()
-    file.close
-    sequence = ''
-    for line in fasta:
-        if re.search("^>",line):
-            continue
-        sequence += line
-        sequence = sequence.replace("\n", "")
-    return sequence
