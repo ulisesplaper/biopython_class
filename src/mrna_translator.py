@@ -7,6 +7,8 @@ AUTHOR
         Victor Ulises Plascencia Perez
 DESCRIPTION
        Traduce una secuencia de mRNA en una secuencia proteica
+       e imprime la secuencia en pantalla o la guarda en un
+       archivo fasta
 USAGE
         usage: py mrna_translator.py [-h] [--version] path
          
@@ -15,8 +17,13 @@ ARGUMENTS
          path                  path of the mRNA sequence fasta file
 
         options:
-         -h, --help            show this help message and exit
-         --version             show program's version number and exit
+        optional arguments:
+        -h, --help            show this help message and exit
+        -he heading           Heading of the output fasta file
+        -o OUTPUT_PATH, --output_path OUTPUT_PATH
+                        Path of the output fasta file with the protein
+                        sequence
+  --version             show program's version number and exit
 SEE ALSO
 GitHub link
         https://github.com/ulisesplaper/python_class/blob/master/src/mrna_translator.py
@@ -27,10 +34,14 @@ import argparse
 import fasta_tools as ft
 
 # Definir argumentos opcionales y posicionales
-parser = argparse.ArgumentParser(description="Translate a sequences of mRNA into a protein sequence")
-parser.add_argument('path', metavar='path',help='path of the mRNA sequence fasta file')
-parser.add_argument('-he', metavar='heading', default=0, help="Heading of the output fasta file")
-parser.add_argument('-o','--output_path', default=0, help="Path of the output fasta file with the protein sequence")
+parser = argparse.ArgumentParser(description="Translate a sequences\
+of mRNA into a protein sequence")
+parser.add_argument('path', metavar='path',help='path of the mRNA\
+sequence fasta file')
+parser.add_argument('-he', metavar='heading', default=0, help="Heading\
+ of the output fasta file")
+parser.add_argument('-o','--output_path', default=0, help="Path of the\
+ output fasta file with the protein sequence")
 parser.add_argument('--version', action='version', version='%(prog)s 1.0.0')
 
 # Leer los argumentos desde la terminal
