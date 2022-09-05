@@ -50,3 +50,10 @@ def get_sequence(path):
         sequence += line
     sequence = sequence.replace("\n", "")
     return sequence
+def create_fasta(path_output, sequence, heading):
+    file = open(path_output, "w")
+    head = '>'+ heading + "\n" + sequence
+    file.write(head)
+    file.close()
+
+    print(f'\nArchivo {path_output} creado\n')
