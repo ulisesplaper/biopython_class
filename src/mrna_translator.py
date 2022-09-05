@@ -29,13 +29,18 @@ import fasta_tools as ft
 # Definir argumentos opcionales y posicionales
 parser = argparse.ArgumentParser(description="Translate a sequences of mRNA into a protein sequence")
 parser.add_argument('path', metavar='path',help='path of the mRNA sequence fasta file')
+parser.add_argument('-he', metavar='heading', default=0, help="Heading of the output fasta file")
+parser.add_argument('-o','--output_path', default=0, help="Path of the output fasta file with the protein sequence")
 parser.add_argument('--version', action='version', version='%(prog)s 1.0.0')
 
 # Leer los argumentos desde la terminal
 args = parser.parse_args()
 mRNA_file = args.path
+output_path = args.output_path
+heading = args.he
 
-# Abrir el archivo que contiene la secuencia de mRNA, asignarlo a una variable y cerrarlo
+# Abrir el archivo que contiene la secuencia de mRNA,
+#  asignarlo a una variable y cerrarlo
 # (usar modulo fasta tools).
 mRNA_seq = ft.get_sequence(mRNA_file)
 
@@ -57,7 +62,8 @@ gencode = {
     'TTG':'L', 'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
     'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
 
-# Convertir la variable tipo string que contiene la seq. de mRNA en una lista de codones
+# Convertir la variable tipo string que contiene la seq.
+#  de mRNA en una lista de codones
 def mRNA_string_converter(mRNA_chain):
     length =len(mRNA_chain)
     mRNA_list=[]
@@ -68,12 +74,21 @@ def mRNA_string_converter(mRNA_chain):
     return(mRNA_list)
 mRNA_list = mRNA_string_converter(mRNA_seq)
 
-# Recorre la lista de codones y, con base en el diccionario, llenar una lista nueva
-# con la secuencia proteica.
+# Recorre la lista de codones y, con base en el diccionario,
+#  llenar una lista nueva con la secuencia proteica.
 protein = []
 for codon in mRNA_list:
     protein.append(gencode.get(codon))
 
-# Imprimir la secuencia proteica en pantalla
+# Convertir la lista de aminoacidos a una string de aminoacidos
 Strprotein = "".join(protein)
-print(Strprotein)
+
+# Comprobar si el usuario desea generar un archivo fasta 
+# generarlo con el modulo create_fasta de ser asi
+if output_path:
+        ft.create_fasta(f'{output_path}', Strprotein, f'{heading}' )
+
+# Imprimir la secuencia proteica en pantalla si el usuario
+# no indica si desea generar un archivo fasta
+else:
+        print(Strprotein)
