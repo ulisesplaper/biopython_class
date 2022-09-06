@@ -88,7 +88,7 @@ try:
                         mRNA_list.append(mRNA_chain[j:i])
                         j = i
                 return(mRNA_list)
-        mRNA_list = mRNA_string_converter(mRNA_seq)
+        mRNA_list = mRNA_string_converter(mRNA_seq.replace("U","T").upper())
 
         # Recorre la lista de codones y, con base en el diccionario,
         #  llenar una lista nueva con la secuencia proteica.
