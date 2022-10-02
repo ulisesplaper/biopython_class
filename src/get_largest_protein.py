@@ -2,7 +2,7 @@
  NAME
       get_largest_protein.py
 VERSION
-        t3.1.0.0.
+        3t1.0.0.
 AUTHOR
         Victor Ulises Plascencia Perez
 DESCRIPTION
