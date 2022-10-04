@@ -22,13 +22,28 @@ GitHub link
 
 '''
 # Importar los modulos necesarios
-
+from Bio import SeqIO
+import argparse
 
 # Definir argumentos opcionales y posicionales
+parser = argparse.ArgumentParser(description="Extract info of a genbank file")
+parser.add_argument('file', metavar='path', help='path of the genbank file')
 
 
 # Leer los argumentos desde la terminal
+args = parser.parse_args()
+file = args.file
 
-# Recorrer cada SeqObj en el archivo
-# Extraer la informacion (fecha, organismo y pais)
-# Imprimir
+try:
+    # Recorrer cada SeqObj en el archivo
+    # Extraer la informacion (fecha, organismo y pais)
+    # Imprimir
+    for gb_record in SeqIO.parse(file, "genbank"):
+        fecha = gb_record.annotations["date"]
+        organismo = gb_record.annotations['organism']
+        features = gb_record.features[0].qualifiers['country']
+        print(
+            f"information:\nFecha: {fecha}\n organismo:{organismo}\nPais:{features}")
+
+except FileNotFoundError:
+    print('\n FileNotFoundError: El nombre o ruta del archivo son incorrectos\n')
