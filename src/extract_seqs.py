@@ -25,7 +25,7 @@ ARGUMENTS
         --version             show program's version number and exit
 SEE ALSO
 GitHub link
-        https://github.com/ulisesplaper/python_class/blob/master/src/get_largest_protein.py
+        https://github.com/ulisesplaper/python_class/blob/master/src/extract_seq.py
 
 '''
 # Importar los modulos necesarios
