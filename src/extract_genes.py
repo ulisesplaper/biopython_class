@@ -24,20 +24,67 @@ GitHub link
 
 '''
 # Importar los modulos necesarios
-
+from Bio import SeqIO
+import argparse
 
 # Definir argumentos opcionales y posicionales
+parser = argparse.ArgumentParser(
+    description="Extract info of a genbank file and given genes")
+parser.add_argument('file', metavar='path', help='path of the genbank file')
+parser.add_argument('-gl', '--gene_list', nargs='+',
+                    help='list of genes to extract info', required=True)
+parser.add_argument('-o', '--output', metavar='output file',
+                    help='path of the output file')
+
 
 # Leer los argumentos desde la terminal
+args = parser.parse_args()
+file = args.file
+gene_list = args.gene_list
+output_file = args.output
 
-# Definir la funcion resumen
+try:
+    # Definir la funcion resumen
+    def resumen(file, genes):
+        # parsear el archivo con SeqIO
+        for gb_record in SeqIO.parse(file, "genbank"):
+            continue
+        # Agregar a un archivo output informacion general del archivo
+        # obtenida de annotations o la feature 'source'
+        with open(output_file, 'w') as output:
+            output.write(
+                'organism:' + gb_record.annotations['organism'] + "\n")
+            output.write('date:' + gb_record.annotations['date'] + "\n")
+            output.write(
+                'country: ' + str(gb_record.features[0].qualifiers['country']) + "\n")
+            if ('isolate' in gb_record.features[0].qualifiers):
+                output.write('isolate number' +
+                             gb_record.features[0].qualifiers['isolated'] + "\n")
 
-# parsear el archivo con SeqIO
-# Agregar a un archivo output informacion general del archivo
-# obtenida de annotations o la feature 'source'
+        # Recorrer el las features del archivo y cuando se encuentre
+        # con el gen buscado, aniadir la informacion del gen y agregarla
+        # al archivo output
+        for gene in gene_list:
+            for genetic_element in gb_record.features:
+                if (genetic_element.type == 'source'):
+                    continue
+                if (genetic_element.type == 'CDS'):
+                    if (genetic_element.qualifiers['gene'] == [gene]):
+                        dna_seq = gb_record.seq[genetic_element.location.
+                                                nofuzzy_start:genetic_element.
+                                                location.nofuzzy_start + 15]
+                        with open(output_file, 'a') as output:
+                            output.write('gene: ' + gene + '\n')
+                            output.write(
+                                'product: ' + str(genetic_element.qualifiers['product'][0]) + '\n')
+                            output.write('ADN:' + str(dna_seq) + '\n')
+                            output.write(
+                                'ARN:' + str(dna_seq.transcribe()) + '\n')
+                            output.write(
+                                'Prot:' + str(dna_seq.translate()) + '\n')
 
-# Recorrer el las features del archivo y cuando se encuentre
-# con el gen buscado, aniadir la informacion del gen y agregarla
-# al archivo output
-
-# Llamar a la funcion con los argumentos correspondientes
+    # Llamar a la funcion con los argumentos correspondientes
+    resumen(file, gene_list)
+except FileNotFoundError:
+    print('\n FileNotFoundError: El nombre o ruta del archivo son\
+ incorrectos\n')
