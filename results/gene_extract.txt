@@ -1,0 +1,13 @@
+organism:Isfahan virus
+date:13-AUG-2018
+country: ['Iran:Isfahan province']
+gene: L
+product: large polymerase protein
+ADN:ATGGATGAGTACTCT
+ARN:AUGGAUGAGUACUCU
+Prot:MDEYS
+gene: G
+product: glycoprotein
+ADN:ATGACTTCAGTCTTA
+ARN:AUGACUUCAGUCUUA
+Prot:MTSVL
