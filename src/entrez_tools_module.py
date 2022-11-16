@@ -59,6 +59,7 @@ def create_term(info_organism):
         return(term_list)
     # Si solo se indico un organismo, no generar la lista
     else:
+        term_list = []
         organism = info_organism
         # Agregar el nombre del organismo al termino
         term = organism.split(sep=':')[0] + '[orgn]' + ' AND ' + '('
@@ -71,8 +72,9 @@ def create_term(info_organism):
             else:
                 gene = gene_list[i] + ')'
             term = term + gene
+        term_list.append(term)
         # Regresar el termino generado
-        return(term)
+        return(term_list)
 
 
 def get_ID_perDB(terminos):
